@@ -18,7 +18,9 @@
 	    
                 <c:if test="#{userLoginControl.loginned &amp;&amp; userLoginControl.currUser.userType.rights>=240}" >
                 <p:menuitem value="Telescopes" outcome="#{menuControl.navigste('/telescopes/telescopedata') }"
-			
+			async="true"
+			icon="ui-icon-document"></p:menuitem>
+                <p:menuitem value="Archive" outcome="#{menuControl.navigste('/archive/archivedata') }"
 			async="true"
 			icon="ui-icon-document"></p:menuitem>
 	    <p:menuitem value="Users Docs"  outcome="#{menuControl.navigste('/users/userdata' )}"

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        
+        <h:form id="fileForm">
+            <h1>File Archive total files #{archiveControl.fmList.size()}</h1>
+            <p:dataGrid id="fileGrid" widgetVar="fileGrid"
+                         paginatorAlwaysVisible="false"
+                         value="#{archiveControl.fmList }"  
+                         var="fl"  paginator="true" 
+                            rowsPerPageTemplate="12,15,18,21,24,27,30,36,39,42" 
+                            rows="15" columns="3"
+        
+                    >
+                <f:facet name="header" >
+            <p:outputPanel styleClass="tableColHead">
+                    <h:outputText value="Search all fields:" />
+                    <p:inputText id="globalFilter"  style="width:250px" placeholder="Enter keyword" value="#{archiveControl.filterValue}" >
+                    </p:inputText>
+                    <h:commandButton value="Search data" action="#{archiveControl.filterOutput()}"   />
+                </p:outputPanel>
+                    
+            </f:facet>
+                <p:panel header="#{fl.fileName}  || &nbsp;&nbsp; [ #{ archiveControl.dataSize(fl)} ]   ">
+                <strong>
+                <h:outputText value="Uploaded at #{archiveControl.uploadMomentUTC(fl)}" /> 
+                <br />
+                <h:outputText value="Hash: #{fl.strHash}" /> 
+                </strong> 
+                <h:panelGrid columns="2" style="width:100%"> 
+                <p:commandButton value="View"  >
+                    <p:ajax event="click" listener="#{archiveControl.selectFile(fl)}" update="@form" oncomplete="PF('fileViewDLG').show();"   />
+                </p:commandButton>
+                <p:commandButton value="Download" ajax="false" action="#{archiveControl.recDownload( fl  )}" />    
+                </h:panelGrid>
+            </p:panel>
+        </p:dataGrid>
+            
+        
+                <p:dialog id="fileViewDLG" widgetVar="fileViewDLG" modal="true" closeOnEscape="true" header="#{archiveControl.fmCurr.fileName}"
+                      width="500" height="450">
+                <p:ajax event="close" listener="#{archiveControl.deSelect()}"  />
+                        
+                <pre style="height: 400px; overflow: scroll">
+                    <p:outputLabel value="#{archiveControl.fmCurr.content}  " />
+                </pre>
+            </p:dialog>
+            <div style=" text-align:  right; padding: 5px;">
+                <p:commandButton value="CreateArhive"  action="#{archiveControl.createArchiveREC()}"  >
+                </p:commandButton> 
+            </div>
+            
+    </h:form>
+        
+    </h:body>
+</html>
+
