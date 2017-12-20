@@ -5,11 +5,14 @@
  */
 package pns.kiam.controllers.archive;
 
+import java.io.File;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import pns.kiam.commonserrvice.RemoverDuplicates;
 import pns.kiam.sweb.controllers.app.XXParserSWEB;
 import pns.kiam.sweb.controllers.archvedb.ArchiveFileController;
 
@@ -23,6 +26,8 @@ public class ArchiveControl extends ArchiveFileController {
 
     @EJB
     private XXParserSWEB xxparser;
+    @EJB
+    private RemoverDuplicates removerDuplicates;
 
     /**
      * Creates a new instance of ArchiveControl
@@ -44,11 +49,19 @@ public class ArchiveControl extends ArchiveFileController {
     public String createArchiveREC() {
         System.out.println("--------------------- Creating Archiv/ Step 1: Removing dobbled ---------------" + new Date());
         System.out.println("  xxparser.getArchivePath() " + xxparser.getArchivePath() + "    xxparser.getMaxDaysFileLive() " + xxparser.getMaxDaysFileLive());
-////        removeDuplTT.setFileAgeInDays(100);
-////        removeDuplTT.removeDupleFiles();
-//
-//        System.out.println("");
-//        System.out.println("--------------------- Creating Archiv/ Step 2: Collect the files to Archive ---------------" + new Date());
+
+        long ts = System.currentTimeMillis();
+        removerDuplicates.setFileAgeInDays(40);
+        removerDuplicates.setRootDir(xxparser.getArchivePath());
+        removerDuplicates.removeDupleFiles();
+        long te = System.currentTimeMillis();
+        System.out.println("    " + (te - ts) + " ms");
+        List<File> fl = removerDuplicates.getFileList();
+
+        System.out.println("");
+        System.out.println("--------------------- Creating Archiv/ Step 2: Collect the files to Archive ---------------" + new Date());
+        System.out.println("  Number of  Files To Collect :  " + fl.size());
+
 //        String rroot = fuc.getRooot() + "/satdata";
 //        System.out.println("  Go across  " + rroot + " and collects existing file ");
 //        System.out.println(new Date());

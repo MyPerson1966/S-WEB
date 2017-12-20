@@ -45,18 +45,21 @@
         </p:dataGrid>
             
         
-            <p:dialog id="fileViewDLG" widgetVar="fileViewDLG" modal="true" closeOnEscape="true" header="#{fileViewController.fmCurr.fileName}"
+            <p:dialog id="fileViewDLG" widgetVar="fileViewDLG" modal="true" closeOnEscape="true" header="#{archiveControl.fileMeasured.fileName}"
                       width="500" height="450">
                 <p:ajax event="close" listener="#{archiveControl.deSelect()}"  />
                         
                 <pre style="height: 400px; overflow: scroll">
-                    <p:outputLabel value="#{archiveControl.fileMeasured.content}  " />
+                    <p:outputLabel value="#{archiveControl.fileMeasured.content} " />
                 </pre>
             </p:dialog>
+            
+            <!--   -->
             <div style=" text-align:  right; padding: 5px;">
                 <p:commandButton value="CreateArhive"  action="#{archiveControl.createArchiveREC()}"  >
                 </p:commandButton> 
             </div>
+            <!--   -->
             
     </h:form>
     </h:body>
