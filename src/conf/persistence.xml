@@ -16,4 +16,19 @@
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
     </properties>
   </persistence-unit>
+  <persistence-unit name="S-WEBPU2" transaction-type="JTA">
+    <jta-data-source>java:app/filearh</jta-data-source>
+    <class>pns.kiam.entities.observatories.Observatory</class>
+    <class>pns.kiam.entities.satellites.FileMeasured</class>
+    <class>pns.kiam.entities.satellites.Satellite</class>
+    <class>pns.kiam.entities.satellites.SatelliteMeasurement</class>
+    <class>pns.kiam.entities.telescopes.Telescope</class>
+    <class>pns.kiam.entities.telescopes.TelescopeHorizontMask</class>
+    <class>pns.kiam.entities.users.User</class>
+    <class>pns.kiam.entities.users.UserType</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
 </persistence>
